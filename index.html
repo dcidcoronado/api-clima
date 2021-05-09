@@ -18,41 +18,51 @@
 
 </head>
 <body>
-  <!-- <div>
-    <section class="mx-auto my-5" style="max-width: 23rem;">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title font-weight-bold">Warsaw</h5>
-          <p class="card-text">Mon, 12:30 PM, Mostly Sunny</p>
-          <div class="d-flex justify-content-between">
-            <p class="display-1 degree">23</p>
-            <i class="fas fa-sun-o fa-5x pt-3 text-warning"></i>
-          </div>
-          <div class="d-flex justify-content-between mb-4">
-            <p><i class="fas fa-tint fa-lg text-info pe-2"></i>3% Precipitation</p>
-            <p><i class="fas fa-leaf fa-lg text-muted pe-2"></i>21 km/h Winds</p>
-          </div>
-    </section>
-  </div> -->
 
-  <div class="container col-6 my-4">
-    <div class="header text-center"><h2>BUSCA EL CLIMA DE TU CIUDAD</h2></div>
-    <div> 
+  <!-- <div class="container col-6 mx-auto"> -->
+    
+    <!-- <div> 
       <form action="" class="col-12 text-center">
         <label for="clima">CIUDAD : </label>
         <input type="text" name="clima" id="city">
         <button name="clima" type="submit">ENVIAR CONSULTA</button>
       </form>
-      <div class="row">
-        <div id="icon" class="col-6 text-center"></div>
-        <div class="col-6 pt-3">
-          <div id="descripcion"></div>
-          <div id="temperatura"></div>
-          <div id="coordenadas"></div>
-        </div>
-      </div>
     </div>
+  </div> -->
+  <div>
+    <section class="mx-auto my-5" style="max-width: 23rem; border: 2px ridge blue;">
+      <div class="mt-3"> 
+        <div class="header text-center"><h5>BUSCA EL CLIMA DE TU CIUDAD</h5></div>
+        <form action="" class="col-12 text-center">
+          <label for="clima"></label>
+          <input type="text" name="clima" id="city">
+          <button class="p-1 btn btn-outline-dark" name="clima" type="submit">Enviar consulta</button>
+        </form>
+      </div>
+      <div>
+        <div class="card-body">
+          <div>
+            <div class="row">
+              <h5 id="ciudad" class="card-title font-weight-bold">Tu Ciudad</h5>
+              <p id="condiciones"class="card-text">Condiciones</p>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-between">
+            <div class="col-6">
+              <p id="temperatura" class="display-1 degree"></p>
+              <i class="fas fa-sun-o fa-5x pt-3 text-warning"></i>
+            </div>
+            <div id="icon" class="col-6 text-center"></div>
+
+
+      </div>
+      <div class="d-flex justify-content-between mb-4">
+        <p id="coordenadas" class="pe-2"></p>
+      </div>
+    </section>
   </div>
+
+
 
   <script>
     $(document).ready(function(){
@@ -62,10 +72,14 @@
         let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&&appid=${key}&lang=es`
         $.get(url, function(res){
           const icon = res.weather[0].icon;
-          console.log(icon);
+          // console.log(icon);
+          $('#ciudad').text(city);
+          $('#ciudad').css('text-transform', 'capitalize');
+          $('#condiciones').text(res.weather[0].description);
+          $('#condiciones').css('text-transform', 'capitalize');
           $('#icon').html(`<img src="https://openweathermap.org/img/wn/${icon}@2x.png">`);
-          $('#descripcion').text(`Clima ${res.name}: ${res.weather[0].description}`);
-          $('#temperatura').text(`Temperatura: ${res.main.temp-273.15}°C`);
+          // $('#descripcion').text(`Clima ${res.name}: ${res.weather[0].description}`);
+          $('#temperatura').text(`${res.main.temp-273.15}°C`);
           $('#coordenadas').text(`Ubicación Geográfica: ${res.coord.lon}, ${res.coord.lat}`);
         });
       });
